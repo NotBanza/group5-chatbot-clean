@@ -8,6 +8,9 @@ import traceback
 import re
 import tempfile
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # --- Page Configuration (MUST be the first and ONLY command) ---
 st.set_page_config(page_title="InsightRFQ - Think Tank", page_icon="assets/thinktank_logo.png", layout="wide", initial_sidebar_state="expanded")
 
@@ -23,7 +26,7 @@ theme = light_theme
 def init_supabase_client():
     try:
         url = os.environ.get("SUPABASE_URL")
-        key = os.environ.get("SUPABASE_API_KEY")
+        key = os.environ.get("SUPABASE_KEY")
         if not url or not key:
             raise ValueError("Missing SUPABASE_URL or SUPABASE_API_KEY environment variables.")
         return create_client(url, key)
