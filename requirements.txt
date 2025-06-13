@@ -1,5 +1,4 @@
-# --- Core Application & AI Frameworks ---
-python==3.10.13
+# --- Core Application & AI FrameworkS
 streamlit==1.35.0
 langchain==0.2.1
 langchain-openai==0.1.7
