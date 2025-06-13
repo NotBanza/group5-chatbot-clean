@@ -8,6 +8,8 @@ import traceback
 import re
 import tempfile
 
+
+
 # --- Page Configuration (MUST be the first and ONLY command) ---
 st.set_page_config(page_title="InsightRFQ - Think Tank", page_icon="assets/thinktank_logo.png", layout="wide", initial_sidebar_state="expanded")
 
@@ -21,8 +23,10 @@ theme = light_theme
 # --- SUPABASE CONNECTION ---
 @st.cache_resource
 def init_supabase_client():
-    try: url = st.secrets["supabase"]["url"]; key = st.secrets["supabase"]["key"]; return create_client(url, key)
-    except Exception as e: st.error(f"Supabase connection failed: {e}. Check secrets.toml."); return None
+    url = os.environ["SUPABASE_URL"]
+    key = os.environ["SUPABASE_SERVICE_KEY"]
+    return create_client(url, key)
+
 supabase: Client = init_supabase_client()
 
 # --- AUTHENTICATION & SESSION STATE INITIALIZATION ---
