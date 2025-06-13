@@ -8,8 +8,6 @@ import traceback
 import re
 import tempfile
 
-
-
 # --- Page Configuration (MUST be the first and ONLY command) ---
 st.set_page_config(page_title="InsightRFQ - Think Tank", page_icon="assets/thinktank_logo.png", layout="wide", initial_sidebar_state="expanded")
 
@@ -23,10 +21,15 @@ theme = light_theme
 # --- SUPABASE CONNECTION ---
 @st.cache_resource
 def init_supabase_client():
-    url = os.environ["SUPABASE_URL"]
-    key = os.environ["SUPABASE_SERVICE_KEY"]
-    return create_client(url, key)
-
+    try:
+        url = os.environ.get("SUPABASE_URL")
+        key = os.environ.get("SUPABASE_API_KEY")
+        if not url or not key:
+            raise ValueError("Missing SUPABASE_URL or SUPABASE_API_KEY environment variables.")
+        return create_client(url, key)
+    except Exception as e:
+        st.error("Supabase connection failed. Ensure SUPABASE_URL and SUPABASE_API_KEY are set in Render environment.")
+        return None
 supabase: Client = init_supabase_client()
 
 # --- AUTHENTICATION & SESSION STATE INITIALIZATION ---
